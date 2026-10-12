@@ -1,4 +1,4 @@
-name: Build APK Absensi KU
+name: Build APK Absensi RDMKU
 
 on:
   workflow_dispatch:
@@ -32,20 +32,20 @@ jobs:
           gradle-version: '8.9'
 
       - name: Build APK
-        run: gradle assembleUtamaDebug assembleKeduaDebug
+        run: gradle assembleDebug assembleRelease
 
-      - name: Simpan APK Utama
+      - name: Simpan APK Debug
         uses: actions/upload-artifact@v4
         with:
-          name: SiREKAP V2
-          path: app/build/outputs/apk/utama/debug/*.apk
+          name: Absensi-RDMKU-APK-Debug
+          path: app/build/outputs/apk/debug/*.apk
           if-no-files-found: error
           retention-days: 14
 
-      - name: Simpan APK Kedua
+      - name: Simpan APK Release
         uses: actions/upload-artifact@v4
         with:
-          name: SiREKAP V2
-          path: app/build/outputs/apk/kedua/debug/*.apk
+          name: Absensi-RDMKU-APK-Release
+          path: app/build/outputs/apk/release/*.apk
           if-no-files-found: error
           retention-days: 14
