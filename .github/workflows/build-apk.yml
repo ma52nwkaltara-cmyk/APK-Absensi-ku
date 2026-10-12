@@ -1,0 +1,51 @@
+name: Build APK Absensi KU
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ambil kode proyek
+        uses: actions/checkout@v4
+
+      - name: Siapkan Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Siapkan Android SDK
+        uses: android-actions/setup-android@v4
+        with:
+          packages: 'platform-tools'
+
+      - name: Siapkan Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.9'
+
+      - name: Build APK
+        run: gradle assembleUtamaDebug assembleKeduaDebug
+
+      - name: Simpan APK Utama
+        uses: actions/upload-artifact@v4
+        with:
+          name: SiREKAP V2
+          path: app/build/outputs/apk/utama/debug/*.apk
+          if-no-files-found: error
+          retention-days: 14
+
+      - name: Simpan APK Kedua
+        uses: actions/upload-artifact@v4
+        with:
+          name: SiREKAP V2
+          path: app/build/outputs/apk/kedua/debug/*.apk
+          if-no-files-found: error
+          retention-days: 14
